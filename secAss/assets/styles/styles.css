@@ -1,0 +1,21 @@
+i.glyphicon.glyphicon-circle-arrow-left {
+  float:right;
+  /*font-size:500%;*/
+  text-align:center;
+  color:rgba(0,255,25,0.611765);
+}
+
+i.glyphicon.glyphicon-circle-arrow-right {
+  float:left;
+  /*font-size:500%;*/
+  text-align:center;
+  color:rgba(0,255,25,0.61);
+}
+
+div.row {
+  margin-top:2%;
+  /*text-align:center;*/
+  /*font-size:500%;*/
+  /*z-index:-1;*/
+}
+
