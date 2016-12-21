@@ -19,6 +19,6 @@ $(document).ready(function () {
 			"hideMethod": "fadeOut"
 		}
 
-		toastr["info"]("You favorited this image.", "Well done!")
+		toastr["info"]("You favorited this image.", "Well done!");
 	});
 });

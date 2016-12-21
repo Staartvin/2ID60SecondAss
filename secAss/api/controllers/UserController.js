@@ -59,7 +59,11 @@ module.exports = {
 					AuthenticationService.authenticateUser(req, user);
 
 					// All done- let the client know that everything worked.
-					return res.ok();
+					return res.json({
+						message: "Logged in",
+						id: user.id,
+						name: user.name
+					}).status(200);
 				}
 			});
 		});
@@ -143,7 +147,7 @@ module.exports = {
 					AuthenticationService.authenticateUser(req, newUser);
 
 					// Send back the id of the new user
-					return res.status(201).json({
+					return res.json({
 						message: "User created.",
 						id: newUser.id
 					});

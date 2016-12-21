@@ -71,9 +71,11 @@
 					<li>
 						<a href="#">Trending</a>
 					</li>
-					<li>
-						<a href="#">Your favorites</a>
-					</li>
+					<% if (req.session.authenticated) { %>
+						<li>
+							<a href="#">Your favorites</a>
+						</li>
+						<% } %>
 				</ul>
 				<button id="loginButton" type="submit" class="btn btn-success pull-right btn-lg hidden-xs" data-toggle="modal" data-target="#loginModal">Login</button>
 			</div>
