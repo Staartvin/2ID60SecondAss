@@ -13,13 +13,24 @@ module.exports = {
 	 */
 	login: function (req, res) {
 
+		console.log("HIT THIS");
 		// Try to look up user using the provided email address
 		User.findOne({
 			email: req.param('email')
 		}, function foundUser(err, user) {
-			if (err) return res.negotiate(err);
-			if (!user) return res.notFound();
+			if (err) {
+				console.log("HIT THIS 2");
+				return res.negotiate(err);
+			}
+			if (!user) {
+				console.log("HIT THIS 3");
+				return res.json({
+					error: 301,
+					message: "No user with this email address was found."
+				});
+			}
 
+			console.log("HIT THIS 4");
 			// Compare password attempt from the form params to the encrypted password
 			// from the database (`user.password`)
 			require('machinepack-passwords').checkPassword({
@@ -28,17 +39,23 @@ module.exports = {
 			}).exec({
 
 				error: function (err) {
+					console.log("HIT THIS 5");
 					return res.negotiate(err);
 				},
 
 				// If the password from the form params doesn't checkout w/ the encrypted
 				// password from the database...
 				incorrect: function () {
-					return res.send(404, "This password is not correct for the given email address.")
+					console.log("HIT THIS 6");
+					return res.json({
+						error: 302,
+						message: "This password is not correct for the given email address."
+					});
 				},
 
 				success: function () {
 
+					console.log("HIT THIS 7");
 					AuthenticationService.authenticateUser(req, user);
 
 					// All done- let the client know that everything worked.
@@ -75,13 +92,47 @@ module.exports = {
 				}, function userCreated(err, newUser) {
 					if (err) {
 
-						console.log("err: ", err);
-						console.log("err.invalidAttributes: ", err.invalidAttributes)
+						//console.log("err: ", err);
+						//console.log("err.invalidAttributes: ", err.invalidAttributes)
+
+						var message = err.message;
+
+						var strip = "SQLITE_CONSTRAINT:";
+
+						var strippedMessage = message.substring(message.indexOf(strip) + strip.length).trim();
+
+						// Email address already in use.
+						if (strippedMessage.includes("UNIQUE") && strippedMessage.includes("user.email")) {
+							return res.json({
+								error: 303,
+								message: "This email address is already being used."
+							});
+						}
+
+						// Name already in use.
+						if (strippedMessage.includes("UNIQUE") && strippedMessage.includes("user.name")) {
+							return res.json({
+								error: 304,
+								message: "This name is already being used."
+							});
+						}
 
 						// If this is a uniqueness error about the email attribute,
 						// send back an easily parseable status code.
 						if (err.invalidAttributes && err.invalidAttributes.email && err.invalidAttributes.email[0] && err.invalidAttributes.email[0].rule === 'unique') {
-							return res.emailAddressInUse();
+							return res.json({
+								error: 303,
+								message: "This email address is already being used."
+							});
+						}
+
+						// If this is a uniqueness error about the email attribute,
+						// send back an easily parseable status code.
+						if (err.invalidAttributes && err.invalidAttributes.name && err.invalidAttributes.name[0] && err.invalidAttributes.name[0].rule === 'string') {
+							return res.json({
+								error: 304,
+								message: "Please provide a valid name."
+							});
 						}
 
 						// Otherwise, send back something reasonable as our error response.
@@ -93,6 +144,7 @@ module.exports = {
 
 					// Send back the id of the new user
 					return res.status(201).json({
+						message: "User created.",
 						id: newUser.id
 					});
 				});

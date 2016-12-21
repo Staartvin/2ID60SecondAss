@@ -1,0 +1,9 @@
+
+.image-title {
+	font-style: italic;
+	font-size: medium;
+}
+
+.image:hover {
+	cursor: pointer;
+}

@@ -1,0 +1,7 @@
+/login
+301: There is no user in the database that has this email address.
+302: The password is not correct for the given email address.
+
+/signup:
+303: The given email address is already being used.
+304: The given username is already being used.

@@ -6,6 +6,8 @@ module.exports = {
 	authenticateUser: function (req, user) {
 
 
+		user.password = "";
+
 		// Store user in the user session
 		req.session.user = user;
 		req.session.authenticated = true;

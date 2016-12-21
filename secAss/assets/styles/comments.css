@@ -1,7 +1,27 @@
 @media (min-width:767px) {
-  .right-div {
-    /*padding-left:0px;*/
-    padding:0px;
-  }
+	.right-div {
+		/*padding-left:0px;*/
+		padding: 0px;
+	}
 }
 
+.author {
+	font-style: italic;
+}
+
+.description {
+	font-size: small;
+}
+
+.panel-title {
+	display: inline;
+}
+
+.commentIcon {
+	vertical-align: middle;
+	font-size: 40px;
+}
+
+.commentIcon:hover {
+	cursor: pointer;
+}

@@ -12,63 +12,95 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-					<div class="panel panel-default left-div"><img class="img-thumbnail img-responsive image" src="http://www.telegraph.co.uk/content/dam/Travel/Destinations/Europe/France/Nice/Nice-nightlife-coastline-xlarge.jpg">
-						<div class="panel-heading hidden-xs"></div>
-						<div class="panel-body"><span class="description">Description </span></div>
+					<div class="panel panel-default left-div">
+						<img class="img-thumbnail img-responsive image" src="http://www.telegraph.co.uk/content/dam/Travel/Destinations/Europe/France/Nice/Nice-nightlife-coastline-xlarge.jpg">
+						<div class="panel-heading hidden-xs">
+							<h3 class="panel-title image-title">A excellent sunset</h3>
+							<span>by Joacquin</span>
+						</div>
+						<div class="panel-body"><span class="image-description">I once went to this great beach and it was very nice. So that's why I now share this picture with you guys!</span></div>
 					</div>
 				</div>
 				<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 right-div">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">Comments </h3></div>
-						<div class="panel-body comment"><span>Comment 1</span></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="modal fade" role="dialog" tabindex="-1" id="loginModal">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header hidden">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-					<h4 class="modal-title">Modal Title</h4></div>
-				<div class="modal-body">
-					<div class="omb_login">
-						<h3 class="omb_authTitle">Login or <a href="#">Sign up</a></h3>
-
-						<div class="row omb_row-sm-offset-3">
-							<div class="col-xs-12 col-sm-6">
-								<form class="omb_loginForm" action="" autocomplete="off" method="POST">
-									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-user"></i></span>
-										<input type="text" class="form-control" name="username" placeholder="Email address">
-									</div>
-									<span id="emailMessage" class="help-block"></span>
-
-									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-lock"></i></span>
-										<input type="password" class="form-control" name="password" placeholder="Password">
-									</div>
-									<span id="passwordMessage" class="help-block"></span>
-
-									<button class="btn btn-lg btn-primary btn-block" type="submit" onclick="login()">Login</button>
-								</form>
+							<h3 class="panel-title">Comments</h3>
+							<i class="commentIcon fa fa-comments-o aria-hidden='true' pull-right fa-lg" title="Click this icon to comment on the image."></i></div>
+						<div class="panel-body commentSection">
+							<div class="comment">
+								<span class="description">I like your idea, it's very cool.</span>
+								<br>
+								<p></p>
+								<small class="author">by Vincent</small>
+								<hr>
 							</div>
-						</div>
-						<div class="row omb_row-sm-offset-3 hidden">
-							<div class="col-xs-12 col-sm-4">
-								<p class="omb_forgotPwd">
-									<a href="#">Forgot password?</a>
-								</p>
+							<div class="comment">
+								<span class="description">How does this exactly work? The picture looks off.</span>
+								<br>
+								<p></p>
+								<small class="author">by Manuel</small>
+								<hr>
+							</div>
+							<div class="comment">
+								<span class="description">Ugh, why must there always be some shady sunset.</span>
+								<br>
+								<p></p>
+								<small class="author">by Ava</small>
+								<hr>
+							</div>
+							<div class="comment">
+								<span class="description">Ava, what are you talking about. There is no sunset...</span>
+								<br>
+								<p></p>
+								<small class="author">by Guus</small>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="modal-footer hidden"></div>
 			</div>
 		</div>
-	</div>
+		<div class="modal fade" role="dialog" tabindex="-1" id="loginModal">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header hidden">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+						<h4 class="modal-title">Modal Title</h4></div>
+					<div class="modal-body">
+						<div class="omb_login">
+							<h3 class="omb_authTitle">Login or <a href="#">Sign up</a></h3>
+
+							<div class="row omb_row-sm-offset-3">
+								<div class="col-xs-12 col-sm-6">
+									<form id="loginForm" class="omb_loginForm" action="" autocomplete="off" method="POST">
+										<div class="input-group">
+											<span class="input-group-addon"><i class="fa fa-user"></i></span>
+											<input type="text" class="form-control" name="email" placeholder="Email address">
+										</div>
+										<span id="emailMessage" class="help-block"></span>
+
+										<div class="input-group">
+											<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+											<input type="password" class="form-control" name="password" placeholder="Password">
+										</div>
+										<span id="passwordMessage" class="help-block"></span>
+
+										<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+									</form>
+								</div>
+							</div>
+							<div class="row omb_row-sm-offset-3 hidden">
+								<div class="col-xs-12 col-sm-4">
+									<p class="omb_forgotPwd">
+										<a href="#">Forgot password?</a>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer hidden"></div>
+				</div>
+			</div>
+		</div>
 </body>
 
 </html>
