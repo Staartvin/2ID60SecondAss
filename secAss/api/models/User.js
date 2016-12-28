@@ -26,11 +26,32 @@ module.exports = {
 			required: true
 		},
 
+		uploadedImages: {
+			collection: 'image',
+			via: 'author'
+		},
+
+		comments: {
+			collection: 'comment',
+			via: 'author'
+		},
+
 		toJSON: function () {
 			var obj = this.toObject();
 			delete obj.password;
 			return obj;
-		}
-
+		},
 	},
+
+	seedData: [
+		{
+			name: 'Vincent',
+			email: 'mijnleraar@msn.com',
+			password: '$2a$10$0Zi2HwJ2CshfUJPVBz5Xm.9zhI3Gvput0V1UvjhKxhiTF1/wUUd.e', //hallo12
+			uploadedImages: [{
+				id: 1
+				}],
+			comments: []
+    }
+  ]
 };

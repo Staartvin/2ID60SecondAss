@@ -149,8 +149,9 @@ module.exports = {
 					// Send back the id of the new user
 					return res.json({
 						message: "User created.",
-						id: newUser.id
-					});
+						id: newUser.id,
+						name: newUser.name
+					}).status(200);
 				});
 			}
 		});
@@ -163,7 +164,7 @@ module.exports = {
 
 		// Look up the user record from the database which is
 		// referenced by the id in the user session (req.session.me)
-		User.findOne(req.session.me, function foundUser(err, user) {
+		User.findOne(req.session.user.id, function foundUser(err, user) {
 			if (err) return res.negotiate(err);
 
 			// If session refers to a user who no longer exists, still allow logout.

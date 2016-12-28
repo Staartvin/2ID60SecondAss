@@ -32,16 +32,17 @@
     -->
 
 	<!--STYLES-->
-	<link rel="stylesheet" href="/styles/bootstrap.min.css">
 	<link rel="stylesheet" href="/styles/comments.css">
-	<link rel="stylesheet" href="/styles/font-awesome.min.css">
+	<link rel="stylesheet" href="/styles/dependencies/bootstrap.min.css">
+	<link rel="stylesheet" href="/styles/dependencies/font-awesome.min.css">
+	<link rel="stylesheet" href="/styles/dependencies/toastr.min.css">
 	<link rel="stylesheet" href="/styles/groups.css">
 	<link rel="stylesheet" href="/styles/importer.css">
 	<link rel="stylesheet" href="/styles/loginModal.css">
 	<link rel="stylesheet" href="/styles/logo-nav.css">
 	<link rel="stylesheet" href="/styles/navbar.css">
+	<link rel="stylesheet" href="/styles/signupModal.css">
 	<link rel="stylesheet" href="/styles/styles.css">
-	<link rel="stylesheet" href="/styles/toastr.min.css">
 	<!--STYLES END-->
 </head>
 
@@ -52,15 +53,24 @@
 		<div class="container">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
+
+
+
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 					<span class="sr-only">Toggle navigation</span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">
-					<img src="images/Web Technology logo.png" alt="">
-				</a>
+				<!-- Show login button when user is not logged, otherwise show logout button -->
+				<% if (!req.session.authenticated) { %>
+					<button id="loginButton" type="submit" class="btn btn-success pull-right btn-sm vcenter hidden-sm hidden-lg hidden-md" data-toggle="modal" data-target="#loginModal">Login</button>
+					<% } else { %>
+						<button id="logoutButton" class="btn btn-success pull-right btn-sm vcenter hidden-sm hidden-lg hidden-md">Logout</button>
+						<% } %>
+							<a class="navbar-brand" href="/">
+								<img src="images/WebGram logo.png" alt="The WebGram Logo">
+							</a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -71,13 +81,24 @@
 					<li>
 						<a href="#">Trending</a>
 					</li>
+					<!-- Show your favorites tab if logged in -->
 					<% if (req.session.authenticated) { %>
 						<li>
 							<a href="#">Your favorites</a>
 						</li>
+						<!-- Allow to post a new picture when logged in -->
+						<li>
+							<a href="#">Post new picture</a>
+						</li>
 						<% } %>
 				</ul>
-				<button id="loginButton" type="submit" class="btn btn-success pull-right btn-lg hidden-xs" data-toggle="modal" data-target="#loginModal">Login</button>
+
+				<!-- Show login button when user is not logged, otherwise show logout button -->
+				<% if (!req.session.authenticated) { %>
+					<button id="loginButton" type="submit" class="btn btn-success pull-right btn-lg hidden-xs" data-toggle="modal" data-target="#loginModal">Login</button>
+					<% } else { %>
+						<button id="logoutButton" class="btn btn-success pull-right btn-lg hidden-xs">Logout</button>
+						<% } %>
 			</div>
 			<!-- /.navbar-collapse -->
 		</div>
@@ -141,11 +162,14 @@
 		<script src="/js/dependencies/sails.io.js"></script>
 		<script src="/js/dependencies/jquery.min.js"></script>
 		<script src="/js/dependencies/bootstrap.min.js"></script>
+		<script src="/js/dependencies/jquery.validate.min.js"></script>
 		<script src="/js/dependencies/js.cookie.js"></script>
 		<script src="/js/dependencies/toastr.min.js"></script>
 		<script src="/js/favoriteImage.js"></script>
 		<script src="/js/imageloader.js"></script>
 		<script src="/js/loginForm.js"></script>
+		<script src="/js/logoutButton.js"></script>
+		<script src="/js/signupForm.js"></script>
 		<!--SCRIPTS END-->
 </body>
 

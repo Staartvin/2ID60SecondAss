@@ -4,34 +4,34 @@
 	}
 }
 
-.omb_login .omb_authTitle {
+.omb_signup .omb_authTitle {
 	text-align: center;
 	line-height: 300%;
 }
 
-.omb_login .omb_socialButtons a {
+.omb_signup .omb_socialButtons a {
 	color: white;
 	opacity: 0.9;
 }
 
-.omb_login .omb_socialButtons a:hover {
+.omb_signup .omb_socialButtons a:hover {
 	color: white;
 	opacity: 1;
 }
 
-.omb_login .omb_socialButtons .omb_btn-facebook {
+.omb_signup .omb_socialButtons .omb_btn-facebook {
 	background: #3b5998;
 }
 
-.omb_login .omb_socialButtons .omb_btn-twitter {
+.omb_signup .omb_socialButtons .omb_btn-twitter {
 	background: #00aced;
 }
 
-.omb_login .omb_socialButtons .omb_btn-google {
+.omb_signup .omb_socialButtons .omb_btn-google {
 	background: #c32f10;
 }
 
-.omb_login .omb_loginOr {
+.omb_signup .omb_signupOr {
 	position: relative;
 	font-size: 1.5em;
 	color: #aaa;
@@ -41,14 +41,14 @@
 	padding-bottom: 0.5em;
 }
 
-.omb_login .omb_loginOr .omb_hrOr {
+.omb_signup .omb_signupOr .omb_hrOr {
 	background-color: #cdcdcd;
 	height: 1px;
 	margin-top: 0px !important;
 	margin-bottom: 0px !important;
 }
 
-.omb_login .omb_loginOr .omb_spanOr {
+.omb_signup .omb_signupOr .omb_spanOr {
 	display: block;
 	position: absolute;
 	left: 50%;
@@ -59,20 +59,16 @@
 	text-align: center;
 }
 
-.omb_login .omb_loginForm .input-group.i {
+.omb_signup .omb_signupForm .input-group.i {
 	width: 2em;
 }
 
-.omb_login .omb_loginForm .help-block {
-	color: red;
-}
-
-.help-block {
+.omb_signup .omb_signupForm .help-block {
 	color: red;
 }
 
 @media (min-width: 768px) {
-	.omb_login .omb_forgotPwd {
+	.omb_signup .omb_forgotPwd {
 		text-align: right;
 		margin-top: 10px;
 	}

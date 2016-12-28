@@ -1,4 +1,5 @@
 $(document).ready(function () {
+	// When a user submits a login form
 	$(".omb_loginForm").submit(function (e) {
 		e.preventDefault();
 
@@ -6,20 +7,20 @@ $(document).ready(function () {
 
 		var password = $('#loginForm').find('input[name="password"]').val();
 
-		console.log("Email: " + email);
-		console.log("Password: " + password);
-
-		var emailHint = $("#emailMessage");
-		var passwordHint = $("#passwordMessage");
+		var emailHint = $('#loginForm').find("#emailMessage");
+		var passwordHint = $('#loginForm').find("#passwordMessage");
 
 		emailHint.text("");
 		passwordHint.text("");
 
-
-
+		// Check if email is valid
+		if (!validateEmail(email) || email.length < 4 || !email.includes("@")) {
+			emailHint.text("Please provide a valid email address.");
+			return;
+		}
 
 		$.post("/login", {
-				email: email,
+				email: email.toLowerCase(),
 				password: password
 			})
 			.done(function (data) {
@@ -52,13 +53,23 @@ $(document).ready(function () {
 						"extendedTimeOut": "1000",
 						"showEasing": "swing",
 						"hideEasing": "linear",
-						"showMethod": "fadeIn",
-						"hideMethod": "fadeOut"
+						"showMethod": "show",
+						"hideMethod": "hide"
 					}
 
-					toastr["success"]("Welcome back " + data.name + "!")
+
 
 					$('#loginModal').modal('hide');
+
+					toastr["success"]("", "Welcome back " + data.name + "!", {
+						onHidden: function () {
+							location.reload();
+						}
+					});
+
+					/*window.setTimeout(function () {
+						location.reload();
+					}, 2000);*/
 
 				}
 

@@ -1,4 +1,7 @@
 #bs-example-navbar-collapse-1 .btn {
-  transform:translateY(35%);
+	transform: translateY(35%);
 }
 
+.vcenter {
+	transform: translateY(35%);
+}

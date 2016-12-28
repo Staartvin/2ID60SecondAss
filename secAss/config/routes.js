@@ -47,4 +47,7 @@ module.exports.routes = {
 	 ***************************************************************************/
 	'POST /login': 'UserController.login',
 	'POST /signup': 'UserController.signup',
+	'POST /logout': 'UserController.logout',
+	'GET /image/top': 'ImageController.getTop',
+	'GET /image/new': 'ImageController.getNew'
 };
