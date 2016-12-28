@@ -5,3 +5,6 @@
 /signup:
 303: The given email address is already being used.
 304: The given username is already being used.
+
+/image/favorite:
+305: Session is not valid

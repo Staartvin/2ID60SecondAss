@@ -33,6 +33,11 @@ module.exports = {
 			type: 'string',
 			required: true,
 			defaultsTo: 'http://www.jennybeaumont.com/wp-content/uploads/2015/03/placeholder.gif'
+		},
+
+		favoritedBy: {
+			collection: 'favoritedimage',
+			via: 'image'
 		}
 	},
 

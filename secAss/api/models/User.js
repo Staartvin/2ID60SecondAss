@@ -36,6 +36,11 @@ module.exports = {
 			via: 'author'
 		},
 
+		favoritedImages: {
+			collection: 'favoritedimage',
+			via: 'user'
+		},
+
 		toJSON: function () {
 			var obj = this.toObject();
 			delete obj.password;

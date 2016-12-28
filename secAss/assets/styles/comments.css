@@ -22,6 +22,12 @@
 	font-size: 40px;
 }
 
-.commentIcon:hover {
+.commentIcon:hover .favoriteIcon:hover {
 	cursor: pointer;
+}
+
+.fa-heart-o {}
+
+.fa-heart {
+	color: red;
 }

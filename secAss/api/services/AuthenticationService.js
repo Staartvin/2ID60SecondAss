@@ -23,8 +23,17 @@ module.exports = {
 		return req.session.authenticated == true && req.session.user != undefined;
 	},
 
+	// Does the session match the given user ID
+	doesSessionMatchId: function (req, userID) {
+		if (!AuthenticationService.isAuthenticated(req)) return false;
 
-	deAuthenticateUser: function (req) {
+		if (req.session.user.id != userID) return false;
+
+		return true;
+	}
+
+
+		deAuthenticateUser: function (req) {
 		req.session.user = null;
 		req.session.authenticated = false;
 		return;

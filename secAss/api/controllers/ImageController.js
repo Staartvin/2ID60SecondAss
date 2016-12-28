@@ -37,6 +37,86 @@ module.exports = {
 				});
 			});
 	},
+
+	favoriteImage: function (req, res) {
+
+		var userID = req.param('userID');
+		var imageID = req.param("imageID");
+
+		// Check if user is logged in and trying to favorite an image to their own user object.
+		if (!AuthenticationService.doesSessionMatchId(req, userID)) {
+			return res.json({
+				error: 305,
+				message: "Session is not valid"
+			});
+		}
+		// Get user object and update it
+		FavoritedImage.create({
+			user: userID,
+			image: imageID
+		}, function created(err, newFavorite) {
+			if (err) {
+
+				//console.log("err: ", err);
+				//console.log("err.invalidAttributes: ", err.invalidAttributes)
+
+				var message = err.message;
+
+				var strip = "SQLITE_CONSTRAINT:";
+
+				var strippedMessage = message.substring(message.indexOf(strip) + strip.length).trim();
+
+				// Email address already in use.
+				if (strippedMessage.includes("UNIQUE") && strippedMessage.includes("user.email")) {
+					return res.json({
+						error: 303,
+						message: "This email address is already being used."
+					});
+				}
+
+				// Name already in use.
+				if (strippedMessage.includes("UNIQUE") && strippedMessage.includes("user.name")) {
+					return res.json({
+						error: 304,
+						message: "This name is already being used."
+					});
+				}
+
+				// If this is a uniqueness error about the email attribute,
+				// send back an easily parseable status code.
+				if (err.invalidAttributes && err.invalidAttributes.email && err.invalidAttributes.email[0] && err.invalidAttributes.email[0].rule === 'unique') {
+					return res.json({
+						error: 303,
+						message: "This email address is already being used."
+					});
+				}
+
+				// If this is a uniqueness error about the email attribute,
+				// send back an easily parseable status code.
+				if (err.invalidAttributes && err.invalidAttributes.name && err.invalidAttributes.name[0] && err.invalidAttributes.name[0].rule === 'string') {
+					return res.json({
+						error: 304,
+						message: "Please provide a valid name."
+					});
+				}
+
+				// Otherwise, send back something reasonable as our error response.
+				return res.negotiate(err);
+			}
+
+			console.log(newFavorite);
+
+			// Send back the id of the new user
+			return res.json({
+				message: "User created.",
+				id: newUser.id,
+				name: newUser.name
+			}).status(200);
+		});
+
+
+
+	},
 };
 
 // Get all the ids of the users that made comments

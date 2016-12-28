@@ -14,7 +14,8 @@ module.exports.bootstrap = function (cb) {
 	async.series([
  		User.seed,
 		Image.seed,
-		Comment.seed
+		Comment.seed,
+		FavoritedImage.seed
  		], cb);
 
 	// It's very important to trigger this callback method when you are finished
