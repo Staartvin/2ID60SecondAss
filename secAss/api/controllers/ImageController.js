@@ -50,12 +50,85 @@ module.exports = {
 				message: "Session is not valid"
 			});
 		}
-		// Get user object and update it
-		FavoritedImage.create({
+
+		// Try to find image.
+		FavoritedImage.findOne({
 			user: userID,
 			image: imageID
-		}, function created(err, newFavorite) {
-			if (err) {
+		}).exec(function (err, image) {
+			if (err || !image) {
+				// Image is not found, now favorite it.
+
+				// Favorite image
+				FavoritedImage.create({
+					user: userID,
+					image: imageID
+				}).exec(function (err, newFavorite) {
+					if (err || !newFavorite) {
+
+						//console.log("err: ", err);
+						//console.log("err.invalidAttributes: ", err.invalidAttributes)
+
+						var message = err.message;
+
+						var strip = "SQLITE_CONSTRAINT:";
+
+						var strippedMessage = message.substring(message.indexOf(strip) + strip.length).trim();
+
+						// Email address already in use.
+						if (strippedMessage.includes("UNIQUE") && strippedMessage.includes("user.email")) {
+							return res.json({
+								error: 303,
+								message: "This email address is already being used."
+							});
+						}
+
+						// Otherwise, send back something reasonable as our error response.
+						return res.serverError(err);
+					}
+
+					// Send back the id of the new user
+					return res.json({
+						error: 200,
+						message: "Favorited image"
+					});
+				});
+			} else {
+				// Already favorited image, so unfavorite image
+				FavoritedImage.destroy({
+					user: userID,
+					image: imageID
+				}).exec(function (err) {
+					if (err) {
+						return res.negotiate(err);
+					}
+
+					// Send back the id of the new user
+					return res.json({
+						error: 200,
+						message: "Unfavorited image"
+					});
+				});
+			}
+		});
+
+
+	},
+
+	uploadImage: function (req, res) {
+		// Try to find image.
+		Image.findOrCreate({
+			url: req.param("url"),
+			author: req.param("userID")
+		}, {
+			title: req.param("title"),
+			description: req.param("description"),
+			author: req.param("userID"),
+			url: req.param("url")
+		}).exec(function (err, image) {
+			if (err || !image) {
+				// Image is not found, now favorite it.
+
 
 				//console.log("err: ", err);
 				//console.log("err.invalidAttributes: ", err.invalidAttributes)
@@ -74,47 +147,128 @@ module.exports = {
 					});
 				}
 
-				// Name already in use.
-				if (strippedMessage.includes("UNIQUE") && strippedMessage.includes("user.name")) {
-					return res.json({
-						error: 304,
-						message: "This name is already being used."
-					});
-				}
-
-				// If this is a uniqueness error about the email attribute,
-				// send back an easily parseable status code.
-				if (err.invalidAttributes && err.invalidAttributes.email && err.invalidAttributes.email[0] && err.invalidAttributes.email[0].rule === 'unique') {
-					return res.json({
-						error: 303,
-						message: "This email address is already being used."
-					});
-				}
-
-				// If this is a uniqueness error about the email attribute,
-				// send back an easily parseable status code.
-				if (err.invalidAttributes && err.invalidAttributes.name && err.invalidAttributes.name[0] && err.invalidAttributes.name[0].rule === 'string') {
-					return res.json({
-						error: 304,
-						message: "Please provide a valid name."
-					});
-				}
-
 				// Otherwise, send back something reasonable as our error response.
-				return res.negotiate(err);
+				return res.serverError(err);
+			} else {
+
+				// Send back the id of the new user
+				return res.json({
+					error: 200,
+					message: "Image uploaded."
+				});
 			}
-
-			console.log(newFavorite);
-
-			// Send back the id of the new user
-			return res.json({
-				message: "User created.",
-				id: newUser.id,
-				name: newUser.name
-			}).status(200);
 		});
 
+	},
 
+	// Get all the favorites of a user
+	getFavorites: function (req, res) {
+
+		var userID = req.param('userID');
+
+		// Check if user is logged in and trying to get favorites of their own user object.
+		if (!AuthenticationService.doesSessionMatchId(req, userID)) {
+			return res.json({
+				error: 305,
+				message: "Session is not valid"
+			});
+		}
+
+
+		// Get all images that this user favorited.
+		FavoritedImage.find({
+			user: userID
+		}).populate('image').exec(function (err, images) {
+			if (err) {
+				return res.serverError(err);
+			}
+
+			// Save an array of favorited images
+			var favorites = [];
+
+			// Store all the ids of the images we favorited.
+			var imageIDs = [];
+
+			for (key in images) {
+				//console.log("Favorite " + key + ": " + JSON.stringify(images[key]));
+
+				var favorite = images[key];
+
+				var favoritedImage = favorite['image'];
+
+				// Check if the array already has this author id
+				if (imageIDs.indexOf(favoritedImage.id) < 0) {
+					imageIDs.push(favoritedImage.id);
+				}
+
+				// Add favoritedImage to array
+				favorites.push(favoritedImage);
+			}
+
+			// Find all the images by the ids
+			Image.find({
+				id: imageIDs
+			}).populateAll().exec(function (err, images) {
+
+				// Add author name and id to the comment users
+				findCommentUsers(res, images, function (users) {
+					var formattedImages = getFormattedImages(images, users);
+					res.json(sortNewImages(formattedImages));
+				});
+			});
+
+		});
+
+	},
+
+	// Get the newest images
+	showImageData: function (req, res) {
+		Image
+			.find({
+				id: req.param("id")
+			})
+			.populateAll()
+			.exec(function (error, images) {
+				//TODO: HANDLE ERRORS PROPERLY
+				handleError(error, res);
+
+				findCommentUsers(res, images, function (users) {
+					var formattedImages = getFormattedImages(images, users);
+					res.send(formattedImages);
+				});
+			});
+	},
+
+	// Get all the uploads of a user
+	getUploads: function (req, res) {
+
+		var userID = req.param('userID');
+
+		// Check if user is logged in and trying to get favorites of their own user object.
+		if (!AuthenticationService.doesSessionMatchId(req, userID)) {
+			return res.json({
+				error: 305,
+				message: "Session is not valid"
+			});
+		}
+
+
+		// Get all images that this user favorited.
+		Image.find({
+			author: userID
+		}).populateAll().exec(function (err, images) {
+			if (err) {
+				return res.serverError(err);
+			}
+
+			// Add author name and id to the comment users
+			findCommentUsers(res, images, function (users) {
+				var formattedImages = getFormattedImages(images, users);
+				res.json(sortNewImages(formattedImages));
+			});
+
+
+		});
 
 	},
 };

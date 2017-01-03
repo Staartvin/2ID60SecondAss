@@ -8,6 +8,7 @@
 
 	<!-- Viewport mobile tag for sensible mobile support -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="theme-color" content="#5C5353">
 
 
 	<!--
@@ -43,10 +44,11 @@
 	<link rel="stylesheet" href="/styles/navbar.css">
 	<link rel="stylesheet" href="/styles/signupModal.css">
 	<link rel="stylesheet" href="/styles/styles.css">
+	<link rel="stylesheet" href="/styles/uploadPostModal.css">
 	<!--STYLES END-->
 </head>
 
-<body>
+<body onload="loadScroll()" onunload="saveScroll()">
 
 	<!-- Navigation -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -76,19 +78,23 @@
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li>
-						<a href="#">Top</a>
+						<a data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" id="topButton">Top</a>
 					</li>
 					<li>
-						<a href="#">Trending</a>
+						<a data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" id="trendingButton">Trending</a>
 					</li>
 					<!-- Show your favorites tab if logged in -->
 					<% if (req.session.authenticated) { %>
 						<li>
-							<a href="#">Your favorites</a>
+							<a data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" id="favoritesButton">Your favorites</a>
+						</li>
+						<li>
+							<a data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" id="myUploadsButton">Your uploads</a>
 						</li>
 						<!-- Allow to post a new picture when logged in -->
 						<li>
-							<a href="#">Post new picture</a>
+							<span data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"></span>
+							<a id="createPostButton" data-toggle="modal" data-target="#postModal" href="">Post new picture</a>
 						</li>
 						<% } %>
 				</ul>
@@ -163,13 +169,18 @@
 		<script src="/js/dependencies/jquery.min.js"></script>
 		<script src="/js/dependencies/bootstrap.min.js"></script>
 		<script src="/js/dependencies/jquery.validate.min.js"></script>
+		<script src="/js/dependencies/jquery.viewport.js"></script>
 		<script src="/js/dependencies/js.cookie.js"></script>
 		<script src="/js/dependencies/toastr.min.js"></script>
+		<script src="/js/authenticationService.js"></script>
 		<script src="/js/favoriteImage.js"></script>
-		<script src="/js/imageloader.js"></script>
+		<script src="/js/imageLoader.js"></script>
 		<script src="/js/loginForm.js"></script>
 		<script src="/js/logoutButton.js"></script>
+		<script src="/js/postComment.js"></script>
+		<script src="/js/scrollService.js"></script>
 		<script src="/js/signupForm.js"></script>
+		<script src="/js/uploadPost.js"></script>
 		<!--SCRIPTS END-->
 </body>
 

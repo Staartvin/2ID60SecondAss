@@ -16,10 +16,10 @@ $(document).ready(function () {
 	$(".omb_signupForm").submit(function (e) {
 		e.preventDefault();
 
-		var email = $('#signupForm').find('input[name="email"]').val();
+		var email = $('#signupForm').find('input[name="email"]').val().trim();
 		var username = $('#signupForm').find('input[name="username"]').val().trim();
-		var password = $('#signupForm').find('input[name="password"]').val();
-		var passwordConfirm = $('#signupForm').find('input[name="passwordConfirm"]').val();
+		var password = $('#signupForm').find('input[name="password"]').val().trim();
+		var passwordConfirm = $('#signupForm').find('input[name="passwordConfirm"]').val().trim();
 
 		var emailHint = $('#signupForm').find("#emailMessage");
 		var passwordHint = $('#signupForm').find("#passwordMessage");

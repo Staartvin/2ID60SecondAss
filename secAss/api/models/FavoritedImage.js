@@ -26,16 +26,16 @@ module.exports = {
 
 	seedData: [
 		{
-			userID: 2,
-			imageID: 1,
+			user: 2,
+			image: 1,
     },
 		{
-			userID: 3,
-			imageID: 1,
+			user: 3,
+			image: 1,
     },
 		{
-			userID: 3,
-			imageID: 2,
+			user: 3,
+			image: 2,
     }
   ]
 };

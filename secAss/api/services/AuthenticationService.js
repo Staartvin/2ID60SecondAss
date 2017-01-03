@@ -12,7 +12,6 @@ module.exports = {
 		req.session.user = user;
 		req.session.authenticated = true;
 
-		console.log(req.session);
 		return;
 	},
 
@@ -30,10 +29,9 @@ module.exports = {
 		if (req.session.user.id != userID) return false;
 
 		return true;
-	}
+	},
 
-
-		deAuthenticateUser: function (req) {
+	deAuthenticateUser: function (req) {
 		req.session.user = null;
 		req.session.authenticated = false;
 		return;

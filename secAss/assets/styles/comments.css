@@ -31,3 +31,18 @@
 .fa-heart {
 	color: red;
 }
+
+.panel {
+	margin-bottom: 0px !important;
+}
+
+.comments {
+	margin-bottom: 50px !important;
+}
+.loadMoreComments {
+	text-align: center;
+}
+
+.comment  hr {
+	margin: 10px;
+}

@@ -50,5 +50,11 @@ module.exports.routes = {
 	'POST /logout': 'UserController.logout',
 	'GET /image/top': 'ImageController.getTop',
 	'GET /image/new': 'ImageController.getNew',
-	'POST /image/favorite': 'ImageController.favoriteImage'
+	'POST /image/favorite': 'ImageController.favoriteImage',
+	'POST /image/upload': 'ImageController.uploadImage',
+	'GET /image/favorites': 'ImageController.getFavorites',
+	'POST /user/authenticated': 'UserController.checkAuthentication',
+	'POST /comment/create': 'CommentController.createComment',
+	'GET /image/:id': 'ImageController.showImageData',
+	'GET /user/posts': 'ImageController.getUploads'
 };

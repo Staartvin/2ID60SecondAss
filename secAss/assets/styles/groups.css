@@ -3,10 +3,17 @@
 	font-size: medium;
 }
 
+.imageholder img {
+	width: 100% !important;
+}
+
 .image:hover {
 	cursor: pointer;
 }
 
 .fa:hover {
 	cursor: pointer;
+}
+#noPostsText {
+	text-align: center;
 }

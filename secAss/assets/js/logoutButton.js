@@ -1,13 +1,15 @@
 $(document).ready(function () {
 
-	$("#logoutButton").on("click", function () {
+	$("nav").on("click", "#logoutButton", function () {
+
+		console.log("LALA");
 
 		$.post("/logout", {})
 			.done(function (data) {
 
 				// Successfully logged in.
-				sessionStorage.setItem("userID", null);
-				sessionStorage.setItem("name", null);
+				sessionStorage.removeItem("userID");
+				sessionStorage.removeItem("name");
 
 				toastr.options = {
 					"closeButton": false,
@@ -27,7 +29,7 @@ $(document).ready(function () {
 					"hideMethod": "hide"
 				}
 
-				toastr["success"]("", "You are now logged out.", {
+				toastr["success"]("Hang on, reloading your page!", "You are being logged out.", {
 					onHidden: function () {
 						location.reload();
 					}

@@ -5,3 +5,10 @@
 .vcenter {
 	transform: translateY(35%);
 }
+
+#topButton,
+#trendingButton,
+#favoritesButton,
+#myUploadsButton {
+	cursor: pointer;
+}

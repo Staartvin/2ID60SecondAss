@@ -3,9 +3,9 @@ $(document).ready(function () {
 	$(".omb_loginForm").submit(function (e) {
 		e.preventDefault();
 
-		var email = $('#loginForm').find('input[name="email"]').val();
+		var email = $('#loginForm').find('input[name="email"]').val().trim();
 
-		var password = $('#loginForm').find('input[name="password"]').val();
+		var password = $('#loginForm').find('input[name="password"]').val().trim();
 
 		var emailHint = $('#loginForm').find("#emailMessage");
 		var passwordHint = $('#loginForm').find("#passwordMessage");
@@ -45,7 +45,7 @@ $(document).ready(function () {
 						"newestOnTop": false,
 						"progressBar": false,
 						"positionClass": "toast-bottom-right",
-						"preventDuplicates": false,
+						"preventDuplicates": true,
 						"onclick": null,
 						"showDuration": "300",
 						"hideDuration": "1000",
@@ -57,13 +57,18 @@ $(document).ready(function () {
 						"hideMethod": "hide"
 					}
 
-
-
 					$('#loginModal').modal('hide');
 
-					toastr["success"]("", "Welcome back " + data.name + "!", {
+					toastr["success"]("Hang on, reloading your page!", "Welcome back " + data.name + "!", {
 						onHidden: function () {
 							location.reload();
+
+							console.log("RELOAD PAGE");
+
+							var scroll = $(window).scrollTop();
+							// yada
+							$("html").scrollTop(scroll);
+
 						}
 					});
 

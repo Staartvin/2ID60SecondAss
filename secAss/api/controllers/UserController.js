@@ -13,24 +13,20 @@ module.exports = {
 	 */
 	login: function (req, res) {
 
-		console.log("HIT THIS");
 		// Try to look up user using the provided email address
 		User.findOne({
 			email: req.param('email')
 		}, function foundUser(err, user) {
 			if (err) {
-				console.log("HIT THIS 2");
 				return res.negotiate(err);
 			}
 			if (!user) {
-				console.log("HIT THIS 3");
 				return res.json({
 					error: 301,
 					message: "No user with this email address was found."
 				});
 			}
 
-			console.log("HIT THIS 4");
 			// Compare password attempt from the form params to the encrypted password
 			// from the database (`user.password`)
 			require('machinepack-passwords').checkPassword({
@@ -39,14 +35,12 @@ module.exports = {
 			}).exec({
 
 				error: function (err) {
-					console.log("HIT THIS 5");
 					return res.negotiate(err);
 				},
 
 				// If the password from the form params doesn't checkout w/ the encrypted
 				// password from the database...
 				incorrect: function () {
-					console.log("HIT THIS 6");
 					return res.json({
 						error: 302,
 						message: "This password is not correct for the given email address."
@@ -55,7 +49,6 @@ module.exports = {
 
 				success: function () {
 
-					console.log("HIT THIS 7");
 					AuthenticationService.authenticateUser(req, user);
 
 					// All done- let the client know that everything worked.
@@ -95,10 +88,6 @@ module.exports = {
 					password: encryptedPassword,
 				}, function userCreated(err, newUser) {
 					if (err) {
-
-						//console.log("err: ", err);
-						//console.log("err.invalidAttributes: ", err.invalidAttributes)
-
 						var message = err.message;
 
 						var strip = "SQLITE_CONSTRAINT:";
@@ -162,6 +151,10 @@ module.exports = {
 	 */
 	logout: function (req, res) {
 
+		if (!AuthenticationService.isAuthenticated(req)) {
+			return;
+		}
+
 		// Look up the user record from the database which is
 		// referenced by the id in the user session (req.session.me)
 		User.findOne(req.session.user.id, function foundUser(err, user) {
@@ -176,5 +169,29 @@ module.exports = {
 
 			return res.ok();
 		});
-	}
+	},
+
+	/**
+	 * Check if user is still authenticated
+	 */
+	checkAuthentication: function (req, res) {
+
+		var userID = req.param("userID");
+
+		// Check if user is logged in
+		if (!AuthenticationService.doesSessionMatchId(req, userID)) {
+			return res.json({
+				error: 305,
+				message: "User is not authenticated"
+			});
+		}
+
+		// Return that user is authenticated
+		return res.json({
+			error: 306,
+			message: "User is authenticated"
+		});
+
+	},
+
 };

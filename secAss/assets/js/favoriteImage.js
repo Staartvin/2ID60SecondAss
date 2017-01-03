@@ -1,89 +1,74 @@
 $(document).ready(function () {
-	$(".groups").on("dblclick", "img", function () {
+	// When double clicking on an image.
+	$(".groups").on("dblclick", "img",
+		function (event) {
+			var groupParent = $(this).closest(".group");
 
-		toastr.options = {
-			"closeButton": false,
-			"debug": false,
-			"newestOnTop": false,
-			"progressBar": false,
-			"positionClass": "toast-bottom-right",
-			"preventDuplicates": false,
-			"onclick": null,
-			"showDuration": "300",
-			"hideDuration": "1000",
-			"timeOut": "2000",
-			"extendedTimeOut": "1000",
-			"showEasing": "swing",
-			"hideEasing": "linear",
-			"showMethod": "fadeIn",
-			"hideMethod": "fadeOut"
-		}
+			favoriteImage(groupParent);
+		});
 
-		// Change favorite icon to a full heart if favorited, or an empty heart if unfavorite.
-		$(".favoriteIcon").toggleClass("fa-heart-o").toggleClass("fa-heart");
+	// When clicking on the heart icon in the comments section
+	$(".groups").on("click", "i.favoriteIcon",
+		function (event) {
+			var groupParent = $(this).closest(".group");
 
-		// Heart is empty
-		if ($(".favoriteIcon").hasClass("fa-heart-o")) {
-			toastr["info"]("You unfavorited this image.");
-		} else {
-			toastr["info"]("You favorited this image.");
-		}
+			favoriteImage(groupParent);
+		});
+});
 
-		$.post("/image/favorite", {
-				userID: $sessionStorage.userID,
-				imageID: // TODO, implement favoriting image
-			})
-			.done(function (data) {
+function favoriteImage(groupParent) {
+	toastr.options = {
+		"closeButton": false,
+		"debug": false,
+		"newestOnTop": false,
+		"progressBar": false,
+		"positionClass": "toast-bottom-right",
+		"preventDuplicates": true,
+		"onclick": null,
+		"showDuration": "300",
+		"hideDuration": "1000",
+		"timeOut": "2000",
+		"extendedTimeOut": "1000",
+		"showEasing": "swing",
+		"hideEasing": "linear",
+		"showMethod": "show",
+		"hideMethod": "hide"
+	}
 
-				var message = data.message;
-				var errorCode = data.error;
 
-				// Handle errors.
-				if (errorCode == 301) {
-					emailHint.text(message);
-				} else if (errorCode == 302) {
-					passwordHint.text(message);
+	var imageID = groupParent.data("imageid");
+	var imageTitle = groupParent.find(".image-title").text();
+	var imageAuthor = groupParent.find(".image-author").text().replace("posted by", "").trim();
+
+	$.post("/image/favorite", {
+			userID: sessionStorage.userID,
+			imageID: imageID
+		})
+		.done(function (data) {
+
+			var message = data.message;
+			var errorCode = data.error;
+
+			// Handle errors.
+			if (errorCode == 305) {
+				toastr["error"]("You need to be logged in to favorite an image.");
+				return;
+			} else if (errorCode == 200) {
+
+				if (message.includes("Unfavorited image")) {
+					toastr["info"]("You unfavorited this image.");
+
+					// Change favorite icon to a full heart if favorited, or an empty heart if unfavorite.
+					groupParent.find(".favoriteIcon").addClass("fa-heart-o").removeClass("fa-heart");
+
 				} else {
-
-					// Successfully logged in.
-					sessionStorage.setItem("userID", data.id);
-					sessionStorage.setItem("name", data.name);
-
-					toastr.options = {
-						"closeButton": false,
-						"debug": false,
-						"newestOnTop": false,
-						"progressBar": false,
-						"positionClass": "toast-bottom-right",
-						"preventDuplicates": false,
-						"onclick": null,
-						"showDuration": "300",
-						"hideDuration": "1000",
-						"timeOut": "2000",
-						"extendedTimeOut": "1000",
-						"showEasing": "swing",
-						"hideEasing": "linear",
-						"showMethod": "show",
-						"hideMethod": "hide"
-					}
-
-
-
-					$('#loginModal').modal('hide');
-
-					toastr["success"]("", "Welcome back " + data.name + "!", {
-						onHidden: function () {
-							location.reload();
-						}
-					});
-
-					/*window.setTimeout(function () {
-						location.reload();
-					}, 2000);*/
-
+					toastr["info"]("You favorited '" + imageTitle + "' by " + imageAuthor);
+					groupParent.find(".favoriteIcon").removeClass("fa-heart-o").addClass("fa-heart");
 				}
 
-			});
-
-	});
-});
+			} else {
+				toastr["error"]("An unknown error occured.");
+				return;
+			}
+		});
+}
