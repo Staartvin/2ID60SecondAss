@@ -2,8 +2,8 @@
 	"name": "WebGram",
 	"private": true,
 	"version": "0.0.0",
-	"description": "a Sails application",
-	"keywords": [],
+	"description": "A interactive image-hosting website for the TU/e course 2ID60.",
+	"keywords": ['2id60', 'webgram', 'instagram', 'image', 'hosting', 'like'],
 	"dependencies": {
 		"ejs": "2.3.4",
 		"grunt": "1.0.1",
