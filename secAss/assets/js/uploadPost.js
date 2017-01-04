@@ -96,9 +96,10 @@ $(document).ready(function () {
 		var src = $("#previewImage").attr("src");
 	});
 
+	// Toggle nav bar when clicking on 'submit a post'.
 	$("#createPostButton").on('click', function () {
 
-		$('.navbar-toggle').click()
+		$('.navbar-toggle').click();
 	});
 
 

@@ -8,7 +8,7 @@ $(document).ready(function () {
 	checkSession();
 
 	// Call it every minute
-	window.setTimeout(checkSession, 1000 * 60);
+	window.setInterval(checkSession, 1000 * 60);
 });
 
 // Check with the server if the stored session data points to a live user session on the server.

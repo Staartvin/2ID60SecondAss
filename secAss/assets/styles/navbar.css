@@ -12,3 +12,7 @@
 #myUploadsButton {
 	cursor: pointer;
 }
+
+.nav a {
+	font-size: 20px;
+}
