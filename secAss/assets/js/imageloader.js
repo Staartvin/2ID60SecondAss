@@ -1,6 +1,25 @@
 // Load new posts by default
 var imageURL = "/image/new";
 
+// Set default toastr options.
+toastr.options = {
+	"closeButton": false,
+	"debug": false,
+	"newestOnTop": false,
+	"progressBar": false,
+	"positionClass": "toast-bottom-right",
+	"preventDuplicates": false,
+	"onclick": null,
+	"showDuration": "300",
+	"hideDuration": "1000",
+	"timeOut": "4000",
+	"extendedTimeOut": "1000",
+	"showEasing": "swing",
+	"hideEasing": "linear",
+	"showMethod": "show",
+	"hideMethod": "hide"
+}
+
 $(document).ready(function () {
 
 	$("#topButton").on("click", function () {
@@ -62,13 +81,13 @@ function loadImages(loadFavorites) {
 		.done(function (data) {
 
 			if (data.length == 0) {
-				
+
 				if ($("#noPostsText").length == 0) {
 					$(".groups").append("<h1 id='noPostsText'> There are no posts to show! </h1>");
 				}
-				
+
 				$("#noPostsText").removeClass("hidden");
-				
+
 				return;
 			} else {
 				$("#noPostsText").addClass("hidden");

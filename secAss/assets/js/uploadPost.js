@@ -59,24 +59,6 @@ $(document).ready(function () {
 				console.log("MESSAGE: " + message);
 				console.log("ERROR: " + errorCode);
 
-				toastr.options = {
-					"closeButton": false,
-					"debug": false,
-					"newestOnTop": false,
-					"progressBar": false,
-					"positionClass": "toast-bottom-right",
-					"preventDuplicates": true,
-					"onclick": null,
-					"showDuration": "300",
-					"hideDuration": "1000",
-					"timeOut": "2000",
-					"extendedTimeOut": "1000",
-					"showEasing": "swing",
-					"hideEasing": "linear",
-					"showMethod": "show",
-					"hideMethod": "hide"
-				}
-
 				$('#postModal').modal('hide');
 
 				toastr["success"]("Refreshing page to show the changes!", "Successfully created your post!", {

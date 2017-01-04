@@ -17,25 +17,6 @@ $(document).ready(function () {
 });
 
 function favoriteImage(groupParent) {
-	toastr.options = {
-		"closeButton": false,
-		"debug": false,
-		"newestOnTop": false,
-		"progressBar": false,
-		"positionClass": "toast-bottom-right",
-		"preventDuplicates": true,
-		"onclick": null,
-		"showDuration": "300",
-		"hideDuration": "1000",
-		"timeOut": "2000",
-		"extendedTimeOut": "1000",
-		"showEasing": "swing",
-		"hideEasing": "linear",
-		"showMethod": "show",
-		"hideMethod": "hide"
-	}
-
-
 	var imageID = groupParent.data("imageid");
 	var imageTitle = groupParent.find(".image-title").text();
 	var imageAuthor = groupParent.find(".image-author").text().replace("posted by", "").trim();
