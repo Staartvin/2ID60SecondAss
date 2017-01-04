@@ -29,7 +29,7 @@ module.exports = {
 		{
 			description: 'I really like this photo',
 			author: {
-				id: 4
+				id: 1
 			},
 			commentedOn: {
 				id: 1

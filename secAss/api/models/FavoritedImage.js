@@ -26,15 +26,11 @@ module.exports = {
 
 	seedData: [
 		{
-			user: 2,
+			user: 1,
 			image: 1,
     },
 		{
-			user: 3,
-			image: 1,
-    },
-		{
-			user: 3,
+			user: 1,
 			image: 2,
     }
   ]

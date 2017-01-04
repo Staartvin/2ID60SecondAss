@@ -46,12 +46,21 @@ module.exports = {
 			title: 'My magnificent photo',
 			description: 'When I was on a beach in Greece.',
 			author: {
-				id: 2
+				id: 1
 			},
 			comments: [{
 				id: 1
 			}],
 			url: 'http://www.telegraph.co.uk/content/dam/Travel/Destinations/Europe/France/Nice/Nice-nightlife-coastline-xlarge.jpg'
+    },
+		{
+			title: 'What a beautiful car this is',
+			description: 'The Tesla S is one of the prettiest cars ever made.',
+			author: {
+				id: 1
+			},
+			comments: [],
+			url: 'http://www.allego.nl/wp-content/uploads/2015/02/Tesla-model-s.jpg'
     }
   ]
 };

@@ -14,10 +14,14 @@ module.exports = {
 			.exec(function (error, images) {
 				//TODO: HANDLE ERRORS PROPERLY
 				handleError(error, res);
+			
+						
+			//console.log(JSON.stringify(images));
 
 				findCommentUsers(res, images, function (users) {
 					var formattedImages = getFormattedImages(images, users);
-					res.send(sortTopImages(formattedImages));
+					
+					return res.send(sortTopImages(formattedImages));
 				});
 			});
 	},
@@ -30,10 +34,14 @@ module.exports = {
 			.exec(function (error, images) {
 				//TODO: HANDLE ERRORS PROPERLY
 				handleError(error, res);
+			
+						
+			//console.log(JSON.stringify(images));
 
 				findCommentUsers(res, images, function (users) {
+					
 					var formattedImages = getFormattedImages(images, users);
-					res.send(sortNewImages(formattedImages));
+					return res.send(sortNewImages(formattedImages));
 				});
 			});
 	},
@@ -294,17 +302,27 @@ function getCommentUsersIDs(images) {
 // Find the users that made a comment on an image
 function findCommentUsers(res, images, callback) {
 	var commentUserIDs = getCommentUsersIDs(images);
+	
 	User.find({
 		id: commentUserIDs
 	}).exec(function (error, users) {
 		//TODO: HANDLE ERRORS PROPERLY
-		handleError(error, res);
-		callback(users);
+		
+		if (error) {
+			return handleError(error, res);
+		}
+	
+		return callback(users);
 	});
 }
 
 // Match user id with user name and replace the author by an id and a name
 function getFormattedImages(images, users) {
+	
+	if (users == undefined || users.length == 0) {
+		return images;
+	}
+	
 	//Append name of the user to comments
 	var userMapping = {};
 	users.forEach(function (user) {
@@ -315,6 +333,7 @@ function getFormattedImages(images, users) {
 		//iterate comments
 		image.comments.forEach(function (comment) {
 			var user = userMapping[comment.author];
+			
 			comment.author = {
 				id: user.id,
 				name: user.name
