@@ -152,7 +152,10 @@ module.exports = {
 	logout: function (req, res) {
 
 		if (!AuthenticationService.isAuthenticated(req)) {
-			return;
+			return res.json({
+				error: 201,
+				message: "You are not logged in."
+			});
 		}
 
 		// Look up the user record from the database which is
@@ -162,13 +165,15 @@ module.exports = {
 
 			// If session refers to a user who no longer exists, still allow logout.
 			if (!user) {
-				return;
+				return res.ok();
 			}
 
 			AuthenticationService.deAuthenticateUser(req);
 
 			return res.ok();
 		});
+
+		return res.ok();
 	},
 
 	/**

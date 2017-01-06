@@ -2,8 +2,6 @@ $(document).ready(function () {
 
 	$("nav").on("click", "#logoutButton", function () {
 
-		console.log("LALA");
-
 		$.post("/logout", {})
 			.done(function (data) {
 

@@ -12,6 +12,8 @@ module.exports = {
 		req.session.user = user;
 		req.session.authenticated = true;
 
+		req.session.save();
+
 		return;
 	},
 
@@ -34,6 +36,8 @@ module.exports = {
 	deAuthenticateUser: function (req) {
 		req.session.user = null;
 		req.session.authenticated = false;
+
+		req.session.save();
 		return;
 	}
 }
